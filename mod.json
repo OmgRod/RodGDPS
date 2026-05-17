@@ -14,11 +14,6 @@
 	"dependencies": {
 		"geode.node-ids": ">=v1.23.3",
 		"km7dev.server_api": ">=v4.0.0",
-		"capeling.garage-stats-menu": ">=v1.3.1",
-		"omgrod.bettergaragestats": {
-			"version": ">=v1.0.4",
-			"required": false
-		},
 		"raydeeux.vanilla_pages": {
 			"version": ">=v1.1.5",
 			"required": false
@@ -32,12 +27,13 @@
 	},
 	"resources": {
 		"spritesheets": {
-			"GDPSTitleSheet": [
-				"res/GDPSTitleSheet/*.png"
+			"GDPSSheet": [
+				"res/GDPSSheet/*.png"
 			]
 		},
 		"files": [
 			"res/music/*"
 		]
-	}
+	},
+	"early-load": true
 }

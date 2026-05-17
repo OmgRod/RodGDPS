@@ -1,3 +1,5 @@
+// Code taken from my other mod GD Surge (with a few fixes!)
+
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;

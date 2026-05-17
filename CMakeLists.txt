@@ -10,6 +10,11 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(RodGDPS VERSION 1.0.0)
 
+if (DEFINED ENV{GITHUB_ACTIONS})
+    message("Github Actions Build")
+    add_definitions(-DGITHUB_ACTIONS)
+endif()
+
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
 if (NOT DEFINED ENV{GEODE_SDK})

@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/OptionsLayer.hpp>
 #include "../layers/CreditsLayer.hpp"
+#include "../layers/GDPSSettingsPopup.hpp"
 
 using namespace geode::prelude;
 
@@ -11,7 +12,7 @@ class $modify(MyOptionsLayer, OptionsLayer) {
         auto menu = this->getChildByIDRecursive("options-menu");
         // menu->setScale(menu->getScale() * 0.85f);
 
-        std::vector<std::string> idsToHide = {"how-to-play-button", "rate-button", "help-button", "songs-button"};
+        std::vector<std::string> idsToHide = {"how-to-play-button", "rate-button", "songs-button"};
         for (const auto& id : idsToHide) {
             if (auto buttonToHide = this->getChildByIDRecursive(id)) {
                 buttonToHide->setVisible(false);
@@ -46,7 +47,8 @@ class $modify(MyOptionsLayer, OptionsLayer) {
     }
 
     void onGDPSSettings(CCObject* sender) {
-
+        auto popup = GDPSSettingsPopup::create();
+        popup->show();
     }
 
     void onGDPSCredits(CCObject* sender) {

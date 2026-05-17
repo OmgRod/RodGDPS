@@ -1,3 +1,5 @@
+// Code taken from my other mod GD Surge (with a few fixes!)
+
 #include "CreditsLayer.hpp"
 
 void CreditsLayer::keyBackClicked() {
@@ -135,7 +137,7 @@ bool CreditsLayer::init() {
     float totalLayoutHeight = (winSize.height * 0.8f) - labelY; 
     float finalScrollY = winSize.height + totalLayoutHeight + 100.f; 
 
-    float musicDurationSec = FMODAudioEngine::sharedEngine()->getMusicLengthMS(0) / 1000.f;
+    float musicDurationSec = FMODAudioEngine::sharedEngine()->getMusicLengthMS(0) / 1000.f + 30.f;
     if (musicDurationSec <= 0.f) musicDurationSec = 45.f;
 
     auto moveAction = CCMoveTo::create(musicDurationSec, { 0.f, finalScrollY });

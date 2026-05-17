@@ -3,26 +3,29 @@
 
 using namespace geode::prelude;
 
+inline void clearBlacklistedMods() {
+    Mod::get()->getSaveContainer().clear();
+}
+
 $on_game(ModsLoaded) {
     std::vector<Mod*> modsList = Loader::get()->getAllMods();
 
-    std::vector<std::string> allowedModIDs = { "geode.loader", "geode.node-ids", "omgrod.rod-gdps", "km7dev.server_api", "geode.devtools", "cvolton.misc_bugfixes", "omgrod.bettergaragestats", "capeling.garage-stats-menu" };
-
-    bool testFailed = false;
+    bool blacklistedFound = false;
 
     for (Mod* mod : modsList) {
         if (!mod) continue;
 
+#ifdef GITHUB_ACTIONS
         if (mod->isLoaded()) {
-            if (std::ranges::contains(allowedModIDs, std::string(mod->getID()))) {
-                log::info("Allowed mod found: {}", mod->getID());
-            } else {
-                log::error("Unauthorized mod found: {}", mod->getID());
+            if (mod->getMetadata().getTags().contains("cheat")) {
                 mod->disable();
-                testFailed = true;
+                blacklistedFound = true;
             }
         }
+#endif
     }
 
-    if (testFailed) game::restart(true);
+    if (blacklistedFound) {
+        game::restart(true);
+    }
 }

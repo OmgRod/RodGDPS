@@ -36,10 +36,30 @@ class $modify(MyMenuLayer, MenuLayer) {
 
 		button->setID("clans-button"_spr);
 
+#ifdef GITHUB_ACTIONS
 		menu->getChildByID("geode.loader/geode-button")->setVisible(false);
+#endif
 
 		menu->updateLayout();
 
+		auto exitMenu = this->getChildByID("close-menu");
+		exitMenu->setVisible(true);
+
+		auto returnToGDSprite = CircleButtonSprite::create(
+			CCSprite::createWithSpriteFrameName("gdLogo.png"_spr),
+			CircleBaseColor::Green,
+			CircleBaseSize::SmallAlt
+		);
+		returnToGDSprite->setScale(0.8f);
+
+		auto returnToGD = CCMenuItemSpriteExtra::create(
+			returnToGDSprite,
+			this,
+			menu_selector(MyMenuLayer::returnToGD)
+		);
+		exitMenu->addChild(returnToGD);
+		exitMenu->updateLayout();
+		
 		return true;
 	}
 
@@ -47,5 +67,9 @@ class $modify(MyMenuLayer, MenuLayer) {
 		auto scene = ClansLayer::scene();
         auto transition = CCTransitionFade::create(0.5f, scene);
         CCDirector::sharedDirector()->pushScene(transition);
+	}
+
+	void returnToGD(CCObject*) {
+
 	}
 };
