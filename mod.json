@@ -1,0 +1,43 @@
+{
+	"geode": "5.7.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "omgrod.rod-gdps",
+	"name": "Rod GDPS",
+	"version": "v1.0.0",
+	"developer": "OmgRod",
+	"description": "A useful mod for Rod GDPS players",
+	"dependencies": {
+		"geode.node-ids": ">=v1.23.3",
+		"km7dev.server_api": ">=v4.0.0",
+		"capeling.garage-stats-menu": ">=v1.3.1",
+		"omgrod.bettergaragestats": {
+			"version": ">=v1.0.4",
+			"required": false
+		},
+		"raydeeux.vanilla_pages": {
+			"version": ">=v1.1.5",
+			"required": false
+		}
+	},
+	"incompatibilities": {
+		"km7dev.gdps-switcher": {
+			"breaking": true,
+			"version": "*"
+		}
+	},
+	"resources": {
+		"spritesheets": {
+			"GDPSTitleSheet": [
+				"res/GDPSTitleSheet/*.png"
+			]
+		},
+		"files": [
+			"res/music/*"
+		]
+	}
+}
