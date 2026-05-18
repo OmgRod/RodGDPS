@@ -15,7 +15,7 @@ class $modify(MyAccountLayer, AccountLayer) {
             "Yes",
             [](FLAlertLayer*, bool btn2) {
                 if (btn2) {
-                    CCApplication::sharedApplication()->openURL("https://rod.ps.fhgdps.com/dashboard/");
+                    geode::utils::web::openLinkInBrowser("https://rod.ps.fhgdps.com/dashboard/");
                 }
             }
         );

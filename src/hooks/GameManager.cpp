@@ -6,19 +6,19 @@ using namespace geode::prelude;
 class $modify(MyGameManager, GameManager) {
 #ifndef GEODE_IS_WINDOWS
     void followTwitch() {
-        CCApplication::sharedApplication()->openURL("https://www.twitch.tv/0mgrod");
+        geode::utils::web::openLinkInBrowser("https://www.twitch.tv/0mgrod");
     }
 #endif
 
 #ifndef GEODE_IS_WINDOWS
     void followTwitter() {
-        CCApplication::sharedApplication()->openURL("https://twitter.com/0mgRod");
+        geode::utils::web::openLinkInBrowser("https://twitter.com/0mgRod");
     }
 #endif
 
 #ifndef GEODE_IS_WINDOWS
     void joinDiscord() {
-        CCApplication::sharedApplication()->openURL("https://discord.gg/vK3DuqJwyW");
+        geode::utils::web::openLinkInBrowser("https://discord.gg/vK3DuqJwyW");
     }
 #endif
 
@@ -44,7 +44,7 @@ class $modify(MyGameManager, GameManager) {
 
 #ifndef GEODE_IS_WINDOWS
     void subYouTube() {
-        CCApplication::sharedApplication()->openURL("https://www.youtube.com/@OmgRodYT");
+        geode::utils::web::openLinkInBrowser("https://www.youtube.com/@OmgRodYT");
     }
 #endif
 };

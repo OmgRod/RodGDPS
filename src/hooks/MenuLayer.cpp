@@ -87,6 +87,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 	}
 
 	void onRobTop(CCObject*) {
-		CCApplication::sharedApplication()->openURL("https://omgrod.me");
+		geode::utils::web::openLinkInBrowser("https://omgrod.me");
 	}
 };

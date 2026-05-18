@@ -5,7 +5,7 @@ using namespace geode::prelude;
 
 class $modify(MyAccountLoginLayer, AccountLoginLayer) {
     void onForgotPassword(CCObject* sender) {
-        CCApplication::sharedApplication()->openURL("https://rod.ps.fhgdps.com/dashboard/login/forgotPassword.php");
+        geode::utils::web::openLinkInBrowser("https://rod.ps.fhgdps.com/dashboard/login/forgotPassword.php");
     }
 
     void onForgotUser(CCObject* sender) {

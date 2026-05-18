@@ -130,7 +130,7 @@ bool GDPSSettingsPopup::init() {
                             "Yes",
                             [](FLAlertLayer*, bool btn2) {
                                 if (btn2) {
-                                    CCApplication::sharedApplication()->openURL("https://rod.ps.fhgdps.com/dashboard/login/forgotPassword.php");
+                                    geode::utils::web::openLinkInBrowser("https://rod.ps.fhgdps.com/dashboard/login/forgotPassword.php");
                                 }
                             }
                         );

@@ -150,35 +150,54 @@ void ClansLayer::parseClansJSON(const std::string& jsonResponse) {
 
     matjson::Value root = result.unwrap();
 
-    try {
-        if (!root["success"].asBool().unwrap()) {
-            showError();
-            return;
-        }
-
-        m_totalClansCount = root["pagination"]["total"].asInt().unwrap();
-        m_totalPages = root["pagination"]["totalPages"].asInt().unwrap();
-        if (m_totalPages < 1) m_totalPages = 1;
-
-        std::vector<ClanData> parsedClans;
-        auto clansArray = root["clans"];
-        
-        for (const auto& clanObj : clansArray) {
-            ClanData clan;
-            clan.id = clanObj["ID"].asInt().unwrap();
-            clan.name = clanObj["name"].asString().unwrap();
-            clan.tag = clanObj["tag"].asString().unwrap();
-            clan.desc = clanObj["desc"].asString().unwrap();
-            clan.members = clanObj["members"].asInt().unwrap();
-            parsedClans.push_back(clan);
-        }
-
-        displayClans(parsedClans);
-    } 
-    catch (const std::exception& e) {
-        log::error("Exception processing json field maps: {}", e.what());
+    auto success = root["success"].asBool();
+    if (!success || !success.unwrap()) {
         showError();
+        return;
     }
+
+    auto total = root["pagination"]["total"].asInt();
+    auto totalPages = root["pagination"]["totalPages"].asInt();
+
+    if (!total || !totalPages) {
+        log::error("Missing pagination fields");
+        showError();
+        return;
+    }
+
+    m_totalClansCount = total.unwrap();
+    m_totalPages = totalPages.unwrap();
+
+    if (m_totalPages < 1)
+        m_totalPages = 1;
+
+    std::vector<ClanData> parsedClans;
+
+    auto clansArray = root["clans"];
+
+    for (const auto& clanObj : clansArray) {
+        auto id = clanObj["ID"].asInt();
+        auto name = clanObj["name"].asString();
+        auto tag = clanObj["tag"].asString();
+        auto desc = clanObj["desc"].asString();
+        auto members = clanObj["members"].asInt();
+
+        if (!id || !name || !tag || !desc || !members) {
+            log::warn("Skipping malformed clan entry");
+            continue;
+        }
+
+        ClanData clan;
+        clan.id = id.unwrap();
+        clan.name = name.unwrap();
+        clan.tag = tag.unwrap();
+        clan.desc = desc.unwrap();
+        clan.members = members.unwrap();
+
+        parsedClans.push_back(clan);
+    }
+
+    displayClans(parsedClans);
 }
 
 void ClansLayer::displayClans(const std::vector<ClanData>& clans) {
