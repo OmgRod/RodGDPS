@@ -23,6 +23,10 @@
 		"km7dev.gdps-switcher": {
 			"breaking": true,
 			"version": "*"
+		},
+		"dankmeme.globed2": {
+			"breaking": true,
+			"version": "*"
 		}
 	},
 	"resources": {

@@ -9,6 +9,18 @@ class $modify(MyMenuLayer, MenuLayer) {
 	bool init() {
         if (!MenuLayer::init()) return false;
 
+		auto socialMenu = getChildByID("social-media-menu");
+		if (socialMenu) {
+			auto button = socialMenu->getChildByID("robtop-logo-button");
+			if (button) {
+				auto sprite = button->getChildByType<CCSprite*>(0);
+				if (sprite) {
+					sprite->setDisplayFrame(CCSpriteFrameCache::get()->spriteFrameByName("omgrodLogo.png"_spr));
+					sprite->setScale(0.55f);
+				}
+			}
+		}
+
         auto oldLogo = this->getChildByID("main-title");
 
         auto newLogo = CCSprite::createWithSpriteFrameName("gdpsLogo.png"_spr);
