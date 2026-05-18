@@ -85,4 +85,8 @@ class $modify(MyMenuLayer, MenuLayer) {
 	void returnToGD(CCObject*) {
 		gdpsutils::returnToGD();
 	}
+
+	void onRobTop(CCObject*) {
+		CCApplication::sharedApplication()->openURL("https://omgrod.me");
+	}
 };
