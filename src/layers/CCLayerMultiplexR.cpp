@@ -1,3 +1,5 @@
+// Code taken from Custom Death Sound mod (this code was originally written by me)
+
 #include "CCLayerMultiplexR.hpp"
 
 CCLayerMultiplexR* CCLayerMultiplexR::create(std::initializer_list<CCLayer*> layers) {

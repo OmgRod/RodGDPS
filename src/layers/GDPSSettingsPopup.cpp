@@ -49,6 +49,9 @@ bool GDPSSettingsPopup::init() {
             auto categoryTitle = CCLabelBMFont::create("Unknown", "bigFont.fnt");
             categoryTitle->setScale(0.5f);
 
+            float assignedTitleY = categoryBg->getPositionY() + (boxHeight / 2.f) - 10.f;
+            categoryTitle->setPosition({ categoryBg->getPositionX(), assignedTitleY });
+            
             switch (i) {
                 case 0: {
                     categoryTitle->setString("Account");
@@ -60,12 +63,32 @@ bool GDPSSettingsPopup::init() {
                 }
                 case 2: {
                     categoryTitle->setString("Debug");
+                    auto menu = CCMenu::create();
+                    menu->setPosition({ 0.f, 0.f });
+                    menu->setContentSize(mainLayer->getContentSize());
+                    mainLayer->addChild(menu);
+                    auto infoSpr = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
+                    infoSpr->setScale(0.35f);
+                    auto infoBtn = CCMenuItemExt::createSpriteExtra(infoSpr, [](CCObject*) {
+                        auto popup = FLAlertLayer::create(
+                            "Warning",
+                            "The buttons in this category are meant for <cr>development/debugging</c> "
+                            "purposes. <cy>Only use these if you know what you are doing</c> or if you "
+                            "are instructed by one of the <cp>mod developers</c>.",
+                            "OK"
+                        );
+                        popup->show();
+                    });
+                    infoBtn->setPosition({
+                        categoryTitle->getPositionX() + ((categoryTitle->getContentWidth() / 2) * categoryTitle->getScale()),
+                        categoryTitle->getPositionY() + ((categoryTitle->getContentHeight() / 2) * categoryTitle->getScale())
+                    });
+                    infoBtn->setID("debug-info-button"_spr);
+                    menu->addChild(infoBtn);
                     break;
                 }
             }
 
-            float assignedTitleY = categoryBg->getPositionY() + (boxHeight / 2.f) - 10.f;
-            categoryTitle->setPosition({ categoryBg->getPositionX(), assignedTitleY });
             mainLayer->addChild(categoryTitle);
 
             float padding = 10.f;
@@ -121,6 +144,17 @@ bool GDPSSettingsPopup::init() {
 
     auto resetPasswordLayer = CCLayer::create();
     resetPasswordLayer->setContentSize(this->m_mainLayer->getContentSize());
+
+    {
+        float layerWidth = this->m_mainLayer->getContentWidth();
+        float layerHeight = this->m_mainLayer->getContentHeight();
+        
+        auto title = CCLabelBMFont::create("Reset Password", "bigFont.fnt");
+        title->setScale(0.6f);
+        float titleY = layerHeight * 0.95f; 
+        title->setPosition({ layerWidth / 2.f, titleY });
+        mainLayer->addChild(title);
+    }
 
     auto multiplex = CCLayerMultiplexR::create({ mainLayer, resetPasswordLayer });
     multiplex->setPosition({ 0.f, 0.f });

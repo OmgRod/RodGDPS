@@ -35,5 +35,15 @@
 			"res/music/*"
 		]
 	},
-	"early-load": true
+	"early-load": true,
+	"links": {
+		"homepage": "https://rod.ps.fhgdps.com",
+		"source": "https://github.com/OmgRod/RodGDPS",
+		"community": "https://discord.gg/HmfPvTB83s"
+	},
+	"tags": ["content", "gameplay", "online", "universal"],
+	"issues": {
+		"info": "Report issues on this mod's GitHub",
+		"url": "https://github.com/OmgRod/RodGDPS/issues"
+	}
 }
