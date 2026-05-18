@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include "Utils.hpp"
 
 using namespace geode::prelude;
 
@@ -19,6 +20,7 @@ $on_game(ModsLoaded) {
         if (mod->isLoaded()) {
             if (mod->getMetadata().getTags().contains("cheat")) {
                 mod->disable();
+                gdpsutils::addToBannedList(mod->getID());
                 blacklistedFound = true;
             }
         }
@@ -26,6 +28,7 @@ $on_game(ModsLoaded) {
     }
 
     if (blacklistedFound) {
+        Mod::get()->saveData();
         game::restart(true);
     }
 }

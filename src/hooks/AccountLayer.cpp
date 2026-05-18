@@ -5,7 +5,7 @@ using namespace geode::prelude;
 
 class $modify(MyAccountLayer, AccountLayer) {
     void onHelp(CCObject* sender) {
-        auto popup = createQuickPopup(
+        createQuickPopup(
             "Account Management",
             "<co>This GDPS doesn't have a single account management "
             "page</c>, so clicking the <cg>\"Yes\"</c> button below will "

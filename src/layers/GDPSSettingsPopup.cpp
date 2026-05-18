@@ -1,4 +1,6 @@
+#include <Geode/ui/GeodeUI.hpp>
 #include "GDPSSettingsPopup.hpp"
+#include "../Utils.hpp"
 
 inline static CCMenuItemSpriteExtra* createButton(const char* text, std::function<void(CCObject*)> callback) {
     auto btnSprite = ButtonSprite::create(text, "goldFont.fnt", "GJ_button_01.png", 0.8f);
@@ -115,24 +117,41 @@ bool GDPSSettingsPopup::init() {
             menu->ignoreAnchorPointForPosition(false); 
 
             switch (i) {
+                // ACCOUNT
                 case 0: {
                     auto changePassBtn = createButton("Reset Pass", [this](CCObject*) {
-                        auto multiplex = static_cast<CCLayerMultiplexR*>(this->m_mainLayer->getChildByTag(69));
-                        if (multiplex) multiplex->switchTo(1);
+                        createQuickPopup(
+                            "Change Password",
+                            "By clicking the <cg>\"Yes\"</c> button below, you will be "
+                            "taken to the <cr>forgot password</c> page. If you are "
+                            "already logged in <cy>(in the website)</c>, log out and "
+                            "follow the instructions in the page.",
+                            "No",
+                            "Yes",
+                            [](FLAlertLayer*, bool btn2) {
+                                if (btn2) {
+                                    CCApplication::sharedApplication()->openURL("https://rod.ps.fhgdps.com/dashboard/login/forgotPassword.php");
+                                }
+                            }
+                        );
                     });
                     menu->addChild(changePassBtn);
                     break;
                 }
+                // TOOLS
                 case 1: {
-                    auto toolsBtn = createButton("Tools", [](CCObject*) {
+                    auto gdBtn = createButton("Return to GD", [=](CCObject*) {
+                        gdpsutils::returnToGD();
                     });
-                    menu->addChild(toolsBtn);
+                    menu->addChild(gdBtn);
                     break;
                 }
+                // UTILS
                 case 2: {
-                    auto debugBtn = createButton("Test", [](CCObject*) {
+                    auto geodeBtn = createButton("Open Geode", [=](CCObject*) {
+                        openModsList();
                     });
-                    menu->addChild(debugBtn);
+                    menu->addChild(geodeBtn);
                     break;
                 }
             }
@@ -142,21 +161,7 @@ bool GDPSSettingsPopup::init() {
         }
     }
 
-    auto resetPasswordLayer = CCLayer::create();
-    resetPasswordLayer->setContentSize(this->m_mainLayer->getContentSize());
-
-    {
-        float layerWidth = this->m_mainLayer->getContentWidth();
-        float layerHeight = this->m_mainLayer->getContentHeight();
-        
-        auto title = CCLabelBMFont::create("Reset Password", "bigFont.fnt");
-        title->setScale(0.6f);
-        float titleY = layerHeight * 0.95f; 
-        title->setPosition({ layerWidth / 2.f, titleY });
-        mainLayer->addChild(title);
-    }
-
-    auto multiplex = CCLayerMultiplexR::create({ mainLayer, resetPasswordLayer });
+    auto multiplex = CCLayerMultiplexR::create({ mainLayer });
     multiplex->setPosition({ 0.f, 0.f });
     multiplex->setContentSize(this->m_mainLayer->getContentSize());
     multiplex->setTag(69); 

@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include "../layers/ClansLayer.hpp"
+#include "../Utils.hpp"
 
 using namespace geode::prelude;
 
@@ -70,6 +71,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 	}
 
 	void returnToGD(CCObject*) {
-
+		gdpsutils::returnToGD();
 	}
 };
