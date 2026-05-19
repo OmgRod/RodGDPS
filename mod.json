@@ -8,12 +8,11 @@
 	},
 	"id": "omgrod.rod-gdps",
 	"name": "Rod GDPS",
-	"version": "v1.0.1",
+	"version": "v1.1.0",
 	"developer": "OmgRod",
 	"description": "A useful mod for Rod GDPS players",
 	"dependencies": {
 		"geode.node-ids": ">=v1.23.3",
-		"km7dev.server_api": ">=v4.0.0",
 		"raydeeux.vanilla_pages": {
 			"version": ">=v1.1.5",
 			"required": false

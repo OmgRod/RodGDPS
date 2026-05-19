@@ -1,6 +1,8 @@
 #include "ClansLayer.hpp"
 #include "ClanTile.hpp"
 #include "DoubleArrow.h"
+#include "CreateClanPopup.hpp"
+#include "DoubleArrow.h"
 
 ClansLayer* ClansLayer::create() {
     ClansLayer* ret = new ClansLayer();
@@ -116,6 +118,11 @@ bool ClansLayer::init() {
     firstPageButton->setPosition({21.f, winSize.height - 88.f});
     menu->addChild(firstPageButton);
 
+    auto createBtnSprite = CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png");
+    auto createBtn = CCMenuItemSpriteExtra::create(createBtnSprite, this, menu_selector(ClansLayer::onCreateClan));
+    createBtn->setPosition({winSize.width - 27.f, 80.f});
+    menu->addChild(createBtn);
+
     fetchClansPage(m_currentPage);
 
     return true;
@@ -125,7 +132,8 @@ void ClansLayer::fetchClansPage(int page) {
     showLoading();
     
     auto req = web::WebRequest();
-    std::string targetUrl = fmt::format("https://rod.ps.fhgdps.com/searchClans.php?page={}", page + 1);
+    auto accountID = GJAccountManager::sharedState()->m_accountID;
+    std::string targetUrl = fmt::format("https://rod.ps.fhgdps.com/searchClans.php?page={}&accountID={}", page + 1, accountID);
 
     m_webListener.spawn(
         req.get(targetUrl),
@@ -181,6 +189,12 @@ void ClansLayer::parseClansJSON(const std::string& jsonResponse) {
         auto tag = clanObj["tag"].asString();
         auto desc = clanObj["desc"].asString();
         auto members = clanObj["members"].asInt();
+        bool isOwner = false;
+        if (clanObj.contains("isOwner") && clanObj["isOwner"].isBool()) isOwner = clanObj["isOwner"].asBool().unwrapOr(false);
+        bool isMember = false;
+        if (clanObj.contains("isMember") && clanObj["isMember"].isBool()) isMember = clanObj["isMember"].asBool().unwrapOr(false);
+        std::string color = "255,255,255";
+        if (clanObj.contains("color") && clanObj["color"].isString()) color = clanObj["color"].asString().unwrapOr("255,255,255");
 
         if (!id || !name || !tag || !desc || !members) {
             log::warn("Skipping malformed clan entry");
@@ -193,6 +207,9 @@ void ClansLayer::parseClansJSON(const std::string& jsonResponse) {
         clan.tag = tag.unwrap();
         clan.desc = desc.unwrap();
         clan.members = members.unwrap();
+        clan.isOwner = isOwner;
+        clan.isMember = isMember;
+        clan.color = color;
 
         parsedClans.push_back(clan);
     }
@@ -219,7 +236,7 @@ void ClansLayer::displayClans(const std::vector<ClanData>& clans) {
     m_contentLayer->setLayout(columnLayout);
 
     for (const auto& clan : clans) {
-        auto tile = ClanTile::create(clan.id, clan.name, clan.tag, clan.members);
+        auto tile = ClanTile::create(clan.id, clan.name, clan.tag, clan.members, clan.isOwner, clan.isMember, clan.color);
         m_contentLayer->addChild(tile);
     }
 
@@ -367,3 +384,9 @@ void ClansLayer::onFirstPage(CCObject* sender) {
     m_currentPage = 0;
     fetchClansPage(m_currentPage);
 }
+
+void ClansLayer::onCreateClan(CCObject* sender) {
+    if (m_isLoading) return;
+    auto popup = CreateClanPopup::create(this);
+    popup->show();
+}

@@ -30,7 +30,7 @@ class $modify(MyMenuLayer, MenuLayer) {
         newLogo->setPositionY(oldLogo->getPositionY() - oldLogo->getContentHeight() / 2);
         this->addChild(newLogo);
 
-		auto buttonSprite = CCSprite::createWithSpriteFrameName("theTowerDoor_001.png");
+		/*auto buttonSprite = CCSprite::createWithSpriteFrameName("theTowerDoor_001.png");
 		buttonSprite->setColor({ 150, 255, 150 });
 		
 		auto button = CCMenuItemSpriteExtra::create(
@@ -48,12 +48,14 @@ class $modify(MyMenuLayer, MenuLayer) {
 		menu->addChild(button);
 
 		button->setID("clans-button"_spr);
+		
+		menu->updateLayout();
+		*/
 
 #ifdef GITHUB_ACTIONS
 		menu->getChildByID("geode.loader/geode-button")->setVisible(false);
 #endif
 
-		menu->updateLayout();
 
 		auto exitMenu = this->getChildByID("close-menu");
 		exitMenu->setVisible(true);

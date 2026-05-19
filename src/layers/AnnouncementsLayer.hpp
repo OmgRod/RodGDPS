@@ -6,18 +6,7 @@
 
 using namespace geode::prelude;
 
-struct ClanData {
-    int id;
-    std::string name;
-    std::string tag;
-    std::string desc;
-    int members;
-    bool isOwner;
-    bool isMember;
-    std::string color;
-};
-
-class ClansLayer : public cocos2d::CCLayer, public SetIDPopupDelegate {
+class AnnouncementsLayer : public cocos2d::CCLayer, public SetIDPopupDelegate {
 private:
     CCScale9Sprite* m_contentBox = nullptr;
     ScrollLayer* m_scrollLayer = nullptr;
@@ -34,7 +23,7 @@ private:
 
     int m_currentPage = 0;
     int m_totalPages = 1;
-    int m_totalClansCount = 0;
+    int m_totalAnnouncementsCount = 0;
     const int itemsPerPage = 10;
 
     bool m_isLoading = true;
@@ -47,9 +36,9 @@ private:
     bool init();
     void keyBackClicked() override;
 
-    void fetchClansPage(int page);
-    void parseClansJSON(const std::string& jsonResponse);
-    void displayClans(const std::vector<ClanData>& clans);
+    void fetchAnnouncementsPage(int page);
+    void parseAnnouncementsJSON(const std::string& jsonResponse);
+    void displayAnnouncements(const std::vector<GJComment*>& announcements);
 
     void onBack(CCObject*);
     void onNext(CCObject*);
@@ -58,7 +47,7 @@ private:
     void onGoToPage(CCObject*);
     void onLastPage(CCObject*);
     void onFirstPage(CCObject*);
-    void onCreateClan(CCObject*);
+    void onAddAnnouncement(CCObject*);
 
     void hideError();
     void showLoading();
@@ -69,9 +58,9 @@ private:
     virtual void setIDPopupClosed(SetIDPopup* popup, int id) override;
 
 public:
-    static ClansLayer* create();
+    static AnnouncementsLayer* create();
     static cocos2d::CCScene* scene();
     void showError();
     void updateButtons();
-    void refreshList() { m_currentPage = 0; fetchClansPage(m_currentPage); }
+    void refreshList() { m_currentPage = 0; fetchAnnouncementsPage(m_currentPage); }
 };
